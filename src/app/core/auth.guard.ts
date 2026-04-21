@@ -10,7 +10,6 @@ export const authGuard: CanActivateFn = (route, state) => {
     return router.createUrlTree(['/']);
   }
   // Simulation: Check if user is "admin"
-  // In a real app, you'd check a UserSignal or AuthService
   const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
   if (isAdmin) {

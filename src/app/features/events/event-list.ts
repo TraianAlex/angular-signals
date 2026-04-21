@@ -6,37 +6,7 @@ import { EventsService } from '../../core/event.service';
 @Component({
   selector: 'app-event-list',
   imports: [EventCard, SearchBar],
-  template: `
-    <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-4">Upcoming Events</h1>
-      <app-search-bar [(query)]="searchQuery" />
-      <p class="text-gray-500 mt-2">Searching for: {{ searchQuery() }}</p>
-    </div>
-    @if (events.error()) {
-      <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
-        Failed to load events. Is the server running?
-      </div>
-    }
-    @if (events.isLoading()) {
-      <div class="text-center py-12 text-gray-500 animate-pulse">Loading events...</div>
-    }
-    @if (events.hasValue()) {
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @for (event of events.value(); track event.id) {
-          <app-event-card
-            (delete)="deleteEvent(event.id)"
-            [trackingId]="'event_card_' + event.id"
-            [title]="event.title"
-            [image]="event.image"
-            [date]="event.date"
-            [id]="event.id"
-          />
-        } @empty {
-          <p class="col-span-3 text-center text-gray-500">No events found.</p>
-        }
-      </div>
-    }
-  `,
+  templateUrl: './event-list.html',
 })
 export class EventList {
   readonly eventsService = inject(EventsService);
