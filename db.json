@@ -3,37 +3,231 @@
     {
       "id": "1",
       "title": "Angular Keynote",
-      "date": "2025-12-10T09:00:00.000Z",
-      "description": "The future of the framework revealed. Join the Angular team as they unveil the latest advancements in reactivity, hydration, and tooling.",
-      "location": "Main Hall",
-      "image": "/images/angular-keynote.png",
+      "date": "2025-12-06T11:00:00.000Z",
+      "description": "Session 1: Angular Keynote. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Room 3B",
+      "image": "/images/signals-deep-dive.png",
       "speakers": [
-        "Sarah Drasner",
-        "Minko Gechev",
-        "Mark Techson"
+        "Taylor Speaker"
       ]
     },
     {
       "id": "2",
       "title": "Signals Deep Dive",
-      "date": "2025-12-11T11:00:00.000Z",
-      "description": "Mastering the primitive that changed everything. Learn how to architect complex state without the chaos of manual subscriptions.",
-      "location": "Room 3B",
-      "image": "/images/signals-deep-dive.png",
+      "date": "2025-12-07T12:00:00.000Z",
+      "description": "Session 2: Signals Deep Dive. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Auditorium",
+      "image": "/images/ssr-at-scale.png",
       "speakers": [
-        "Alex Rickabaugh",
-        "Pawel Kozlowski"
+        "Alex Example",
+        "Jamie Demo"
       ]
     },
     {
       "id": "3",
       "title": "Server-Side Rendering at Scale",
-      "date": "2025-12-21T14:00:00.000Z",
-      "description": "Hydration, Defer, and Performance. How to deliver instant TTI using Angular's new Incremental Hydration engine.",
-      "location": "Auditorium",
+      "date": "2025-12-08T13:00:00.000Z",
+      "description": "Session 3: Server-Side Rendering at Scale. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Workshop A",
+      "image": "/images/event4.png",
+      "speakers": [
+        "Taylor Speaker"
+      ]
+    },
+    {
+      "id": "4",
+      "title": "RxJS Patterns for Apps",
+      "date": "2025-12-09T14:00:00.000Z",
+      "description": "Session 4: RxJS Patterns for Apps. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Workshop B",
+      "image": "/images/angular-keynote.png",
+      "speakers": [
+        "Alex Example",
+        "Jamie Demo"
+      ]
+    },
+    {
+      "id": "5",
+      "title": "NgRx SignalStore Live",
+      "date": "2025-12-10T15:00:00.000Z",
+      "description": "Session 5: NgRx SignalStore Live. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Main Hall",
+      "image": "/images/signals-deep-dive.png",
+      "speakers": [
+        "Taylor Speaker"
+      ]
+    },
+    {
+      "id": "6",
+      "title": "Component Testing with Vitest",
+      "date": "2025-12-11T10:00:00.000Z",
+      "description": "Session 6: Component Testing with Vitest. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Room 3B",
       "image": "/images/ssr-at-scale.png",
       "speakers": [
-        "Jessica Janiuk"
+        "Alex Example",
+        "Jamie Demo"
+      ]
+    },
+    {
+      "id": "7",
+      "title": "Accessibility in Angular",
+      "date": "2025-12-12T11:00:00.000Z",
+      "description": "Session 7: Accessibility in Angular. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Auditorium",
+      "image": "/images/event4.png",
+      "speakers": [
+        "Taylor Speaker"
+      ]
+    },
+    {
+      "id": "8",
+      "title": "Performance Budgets",
+      "date": "2025-12-13T12:00:00.000Z",
+      "description": "Session 8: Performance Budgets. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Workshop A",
+      "image": "/images/angular-keynote.png",
+      "speakers": [
+        "Alex Example",
+        "Jamie Demo"
+      ]
+    },
+    {
+      "id": "9",
+      "title": "Micro-frontends with Native Federation",
+      "date": "2025-12-14T13:00:00.000Z",
+      "description": "Session 9: Micro-frontends with Native Federation. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Workshop B",
+      "image": "/images/signals-deep-dive.png",
+      "speakers": [
+        "Taylor Speaker"
+      ]
+    },
+    {
+      "id": "10",
+      "title": "Forms: Typed and Signal-driven",
+      "date": "2025-12-15T14:00:00.000Z",
+      "description": "Session 10: Forms: Typed and Signal-driven. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Main Hall",
+      "image": "/images/ssr-at-scale.png",
+      "speakers": [
+        "Alex Example",
+        "Jamie Demo"
+      ]
+    },
+    {
+      "id": "11",
+      "title": "Deploying to the Edge",
+      "date": "2025-12-16T15:00:00.000Z",
+      "description": "Session 11: Deploying to the Edge. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Room 3B",
+      "image": "/images/event4.png",
+      "speakers": [
+        "Taylor Speaker"
+      ]
+    },
+    {
+      "id": "12",
+      "title": "Design Tokens in UI Kits",
+      "date": "2025-12-17T10:00:00.000Z",
+      "description": "Session 12: Design Tokens in UI Kits. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Auditorium",
+      "image": "/images/angular-keynote.png",
+      "speakers": [
+        "Alex Example",
+        "Jamie Demo"
+      ]
+    },
+    {
+      "id": "13",
+      "title": "GraphQL with Apollo Angular",
+      "date": "2025-12-18T11:00:00.000Z",
+      "description": "Session 13: GraphQL with Apollo Angular. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Workshop A",
+      "image": "/images/signals-deep-dive.png",
+      "speakers": [
+        "Taylor Speaker"
+      ]
+    },
+    {
+      "id": "14",
+      "title": "Web Workers for Heavy UI",
+      "date": "2025-12-19T12:00:00.000Z",
+      "description": "Session 14: Web Workers for Heavy UI. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Workshop B",
+      "image": "/images/ssr-at-scale.png",
+      "speakers": [
+        "Alex Example",
+        "Jamie Demo"
+      ]
+    },
+    {
+      "id": "15",
+      "title": "Internationalization Workshop",
+      "date": "2025-12-20T13:00:00.000Z",
+      "description": "Session 15: Internationalization Workshop. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Main Hall",
+      "image": "/images/event4.png",
+      "speakers": [
+        "Taylor Speaker"
+      ]
+    },
+    {
+      "id": "16",
+      "title": "Security Headers and CSP",
+      "date": "2025-12-21T14:00:00.000Z",
+      "description": "Session 16: Security Headers and CSP. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Room 3B",
+      "image": "/images/angular-keynote.png",
+      "speakers": [
+        "Alex Example",
+        "Jamie Demo"
+      ]
+    },
+    {
+      "id": "17",
+      "title": "Storybook for Angular Teams",
+      "date": "2025-12-22T15:00:00.000Z",
+      "description": "Session 17: Storybook for Angular Teams. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Auditorium",
+      "image": "/images/signals-deep-dive.png",
+      "speakers": [
+        "Taylor Speaker"
+      ]
+    },
+    {
+      "id": "18",
+      "title": "CI/CD for Angular Monorepos",
+      "date": "2025-12-23T10:00:00.000Z",
+      "description": "Session 18: CI/CD for Angular Monorepos. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Workshop A",
+      "image": "/images/ssr-at-scale.png",
+      "speakers": [
+        "Alex Example",
+        "Jamie Demo"
+      ]
+    },
+    {
+      "id": "19",
+      "title": "Custom ESLint Rules",
+      "date": "2025-12-24T11:00:00.000Z",
+      "description": "Session 19: Custom ESLint Rules. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Workshop B",
+      "image": "/images/event4.png",
+      "speakers": [
+        "Taylor Speaker"
+      ]
+    },
+    {
+      "id": "20",
+      "title": "Closing Party & Networking",
+      "date": "2025-12-25T12:00:00.000Z",
+      "description": "Session 20: Closing Party & Networking. Hands-on content, Q&A, and practical takeaways for your next Angular project.",
+      "location": "Main Hall",
+      "image": "/images/angular-keynote.png",
+      "speakers": [
+        "Alex Example",
+        "Jamie Demo"
       ]
     }
   ],

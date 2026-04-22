@@ -4,22 +4,39 @@ import { Observable, tap } from 'rxjs';
 import { DevFestEvent } from '../models/event.model';
 import { API_URL } from './tokens';
 
+export interface EventsListQuery {
+  query: Signal<string>;
+  page: Signal<number>;
+  pageSize: Signal<number>;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class EventsService {
   private http = inject(HttpClient);
-  // private apiUrl = 'http://localhost:3000/events';
   private apiUrl = `${inject(API_URL)}/events`;
 
-  // 1. Define the Resource Factory
-  // We accept a Signal<string> so the resource can react to changes automatically.
-  getEventsResource(query: Signal<string>) {
+  /**
+   * Paginated events (json-server: `_page`, `_limit`, `X-Total-Count` header).
+   */
+  getEventsResource(input: EventsListQuery) {
     return httpResource<DevFestEvent[]>(() => {
-      const q = query();
-      // The function returns the URL to fetch.
-      // Whenever 'q' changes, httpResource re-fetches automatically.
-      return q ? `${this.apiUrl}?q=${q}` : this.apiUrl;
+      const q = String(input.query() ?? '').trim();
+      const page = Math.max(1, input.page() ?? 1);
+      const limit = Math.max(1, input.pageSize() ?? 6);
+      const params: Record<string, string | number> = {
+        _page: page,
+        _limit: limit,
+      };
+      if (q) {
+        params['q'] = q;
+      }
+      return {
+        url: this.apiUrl,
+        params,
+        transferCache: { includeHeaders: ['X-Total-Count'] },
+      };
     });
   }
 
