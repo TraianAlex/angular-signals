@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertifyBrowser } from '../../core/alertify-browser.service';
 import { EventsService } from '../../core/event.service';
 import { DevFestEvent } from '../../models/event.model';
 import { FormField, debounce, disabled, form, minLength, required } from '@angular/forms/signals';
@@ -14,6 +15,7 @@ interface CreateEventForm extends Omit<DevFestEvent, 'id'> {}
 export class CreateEvent {
   private readonly eventService = inject(EventsService);
   private readonly router = inject(Router);
+  private readonly alertify = inject(AlertifyBrowser);
 
   // 2. The Source of Truth
   // This writable signal holds the data.
@@ -60,17 +62,16 @@ export class CreateEvent {
 
   onSubmit(event: SubmitEvent) {
     event.preventDefault();
-    // 1. Check form-level validity signal
     if (this.form().invalid()) return;
-    // 2. Read the Source Signal directly
     const payload = this.eventData();
-    // 3. Send to service
     this.eventService.createEvent(payload).subscribe({
       next: () => {
-        alert('Event Created!');
+        this.alertify.success('Event Created!');
         this.router.navigate(['/']);
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        this.alertify.error('Failed to create event');
+      },
     });
   }
 }

@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+@import 'alertifyjs/build/css/alertify.min.css';
+@import 'alertifyjs/build/css/themes/bootstrap.min.css';
+@import 'alertifyjs/build/css/themes/default.min.css';
+
 @theme {
   --color-primary: #1d4ed8;
   --font-family-sans: 'Inter', system-ui, sans-serif;
@@ -8,4 +12,11 @@
 body {
   background-color: theme('colors.gray.50');
   font-family: theme('font-family.sans');
+}
+
+/* Alertify success notifier: use app primary instead of library green */
+.alertify-notifier .ajs-message.ajs-success {
+  background: color-mix(in srgb, var(--color-primary) 92%, transparent);
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(15, 23, 42, 0.18);
 }

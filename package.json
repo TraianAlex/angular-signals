@@ -26,6 +26,7 @@
     "@angular/ssr": "^21.2.6",
     "@ngrx/operators": "^21.0.1",
     "@ngrx/signals": "^21.0.1",
+    "alertifyjs": "^1.14.0",
     "express": "^5.1.0",
     "json-server": "^0.17.4",
     "rxjs": "~7.8.0",

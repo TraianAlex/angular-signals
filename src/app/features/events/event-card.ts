@@ -3,6 +3,7 @@ import { Component, computed, input, linkedSignal, output } from '@angular/core'
 import { RouterLink } from '@angular/router';
 import { UiCard } from '../../shared/ui-card';
 import { ClickLogger } from '../../shared/directives/click-logger';
+import { daysUntil } from '../../shared/utils';
 
 @Component({
   selector: 'app-event-card',
@@ -32,14 +33,7 @@ export class EventCard {
   isFavorite = linkedSignal(() => this.initialLike());
 
   daysUntil = computed(() => {
-    const eventDate = this.date();
-    if (!eventDate) return null;
-
-    const today = new Date();
-    const target = new Date(eventDate);
-    const diffTime = target.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
+    return daysUntil(this.date);
   });
 
   toggleFavorite() {
