@@ -19,7 +19,6 @@ export class EventList {
   private readonly router = inject(Router);
 
   readonly searchQuery = signal('');
-  readonly searchQueryText = computed(() => this.searchQuery());
   readonly currentPage = signal(1);
   readonly pageSize = signal(6);
 
@@ -39,7 +38,7 @@ export class EventList {
   );
 
   readonly events = this.eventsService.getEventsResource({
-    query: this.searchQueryText,
+    query: this.searchQuery,
     page: this.currentPage,
     pageSize: this.pageSize,
   });

@@ -1,8 +1,8 @@
 <div class="mb-8">
   <h1 class="text-3xl font-bold text-gray-900 mb-4">Upcoming Events</h1>
   <app-search-bar [query]="searchQuery()" (queryChange)="onSearchQueryChange($event)" />
-  @if (searchQueryText().trim()) {
-    <p class="text-gray-500 mt-2">Searching for: {{ searchQueryText() }}</p>
+  @if (searchQuery().trim()) {
+    <p class="text-gray-500 mt-2">Searching for: {{ searchQuery() }}</p>
   }
 </div>
 @if (events.error()) {
