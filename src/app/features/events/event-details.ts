@@ -21,7 +21,7 @@ export class EventDetails {
   readonly eventService = inject(EventsService);
   // activatedRoute = inject(ActivatedRoute);
   // readonly id = toSignal(this.activatedRoute.paramMap)()?.get('id');
-  readonly bookStore = inject(BookStore);
+  // readonly bookStore = inject(BookStore);
   readonly id = input.required<string>();
 
   readonly eventResource = this.eventService.getEventResource(this.id);
@@ -36,12 +36,12 @@ export class EventDetails {
   private buyBtnClick$ = new Subject<void>();
 
   constructor() {
-    this.bookStore.books();
-    this.bookStore.freeBooks();
-    this.bookStore.totalBooks();
-    this.bookStore.myFeature();
-    this.bookStore.plus();
-    this.bookStore.addBook({ id: '1', title: 'Book 1', price: 10 });
+    // this.bookStore.books();
+    // this.bookStore.freeBooks();
+    // this.bookStore.totalBooks();
+    // this.bookStore.myFeature();
+    // this.bookStore.plus();
+    // this.bookStore.addBook({ id: '1', title: 'Book 1', price: 10 });
 
     // 2. Setup the Pipeline
     this.buyBtnClick$
