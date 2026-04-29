@@ -12,17 +12,31 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
+interface TodoItem {
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
+app.get('/api/todos', async (_req, res) => {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=8');
+    if (!response.ok) {
+      res.status(response.status).json({
+        message: 'Failed to fetch todos data from upstream API',
+      });
+      return;
+    }
+
+    const todos = (await response.json()) as TodoItem[];
+    res.json(todos);
+  } catch {
+    res.status(500).json({
+      message: 'Unexpected error while fetching todos data',
+    });
+  }
+});
+
 
 /**
  * Serve static files from /browser
