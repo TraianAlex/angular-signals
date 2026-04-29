@@ -9,3 +9,10 @@ npx ng test --no-watch --include='**/event-list.spec.ts'
 
 
 npm i baseline-browser-mapping@latest -D
+
+
+
+### Run SSR
+npm run server - run json-server http://localhost:3000
+ng run build
+npm run serve:ssr:devfest-manager - run express server http://localhost:4000

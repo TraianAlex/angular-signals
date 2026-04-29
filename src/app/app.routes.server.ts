@@ -4,6 +4,7 @@ export const serverRoutes: ServerRoute[] = [
   { path: '', renderMode: RenderMode.Prerender },
   {
     path: 'event/:id',
+    // renderMode: RenderMode.Server,
     renderMode: RenderMode.Prerender,
     async getPrerenderParams() {
       return [{ id: '1' }, { id: '2' }];
