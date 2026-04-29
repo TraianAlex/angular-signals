@@ -61,6 +61,44 @@ async function writeDatabase(db: AppDatabase): Promise<void> {
   await writeFile(dbPath, `${JSON.stringify(db, null, 2)}\n`, 'utf8');
 }
 
+async function listTickets(_req: express.Request, res: express.Response): Promise<void> {
+  try {
+    const db = await readDatabase();
+    res.json(db.tickets);
+  } catch {
+    res.status(500).json({ message: 'Could not load tickets' });
+  }
+}
+
+async function createTicket(req: express.Request, res: express.Response): Promise<void> {
+  try {
+    const payload = req.body as Partial<{ eventId: string }>;
+    const eventId = String(payload.eventId ?? '').trim();
+    if (!eventId) {
+      res.status(400).json({ message: 'eventId is required' });
+      return;
+    }
+
+    const db = await readDatabase();
+    const eventExists = db.events.some((event) => event.id === eventId);
+    if (!eventExists) {
+      res.status(404).json({ message: 'Festival event not found' });
+      return;
+    }
+
+    const nextId = Math.max(...db.tickets.map((ticket) => ticket.id), 0) + 1;
+    const created = {
+      id: nextId,
+      eventId,
+    };
+    db.tickets.push(created);
+    await writeDatabase(db);
+    res.status(201).json(created);
+  } catch {
+    res.status(500).json({ message: 'Could not create ticket' });
+  }
+}
+
 app.get('/api/todos', (_req, res) => {
   res.json(todosStore);
 });
@@ -262,6 +300,11 @@ app.delete('/api/festival/events/:id', async (req, res) => {
     res.status(500).json({ message: 'Could not delete festival event' });
   }
 });
+
+app.get('/tickets', listTickets);
+app.post('/tickets', createTicket);
+app.get('/api/tickets', listTickets);
+app.post('/api/tickets', createTicket);
 
 
 /**

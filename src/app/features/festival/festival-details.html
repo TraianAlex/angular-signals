@@ -21,79 +21,18 @@
             <p class="text-gray-700 leading-relaxed text-lg">{{ event.description }}</p>
           </app-tab>
           <app-tab label="Edit">
-            <form class="space-y-4" (ngSubmit)="saveEvent()">
-              <div>
-                <label class="mb-1 block text-sm font-medium text-gray-700">Title</label>
-                <input
-                  class="w-full rounded-md border border-gray-300 px-3 py-2"
-                  name="title"
-                  [ngModel]="editTitle()"
-                  (ngModelChange)="editTitle.set($event)"
-                />
-              </div>
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <label class="mb-1 block text-sm font-medium text-gray-700">Date</label>
-                  <input
-                    class="w-full rounded-md border border-gray-300 px-3 py-2"
-                    type="datetime-local"
-                    name="date"
-                    [ngModel]="editDate()"
-                    (ngModelChange)="editDate.set($event)"
-                  />
-                </div>
-                <div>
-                  <label class="mb-1 block text-sm font-medium text-gray-700">Location</label>
-                  <input
-                    class="w-full rounded-md border border-gray-300 px-3 py-2"
-                    name="location"
-                    [ngModel]="editLocation()"
-                    (ngModelChange)="editLocation.set($event)"
-                  />
-                </div>
-              </div>
-              <div>
-                <label class="mb-1 block text-sm font-medium text-gray-700">Image URL</label>
-                <input
-                  class="w-full rounded-md border border-gray-300 px-3 py-2"
-                  name="image"
-                  [ngModel]="editImage()"
-                  (ngModelChange)="editImage.set($event)"
-                />
-              </div>
-              <div>
-                <label class="mb-1 block text-sm font-medium text-gray-700">Speakers (comma separated)</label>
-                <input
-                  class="w-full rounded-md border border-gray-300 px-3 py-2"
-                  name="speakers"
-                  [ngModel]="editSpeakersRaw()"
-                  (ngModelChange)="editSpeakersRaw.set($event)"
-                />
-              </div>
-              <div>
-                <label class="mb-1 block text-sm font-medium text-gray-700">Description</label>
-                <textarea
-                  class="w-full rounded-md border border-gray-300 px-3 py-2"
-                  rows="5"
-                  name="description"
-                  [ngModel]="editDescription()"
-                  (ngModelChange)="editDescription.set($event)"
-                ></textarea>
-              </div>
-              @if (saveError()) {
-                <p class="text-sm text-red-600">{{ saveError() }}</p>
-              }
-              @if (saveMessage()) {
-                <p class="text-sm text-green-700">{{ saveMessage() }}</p>
-              }
-              <button
-                type="submit"
-                class="rounded-md bg-blue-700 px-4 py-2 text-white disabled:opacity-50"
-                [disabled]="isSaving()"
-              >
-                Save Changes
-              </button>
-            </form>
+            <app-festival-event-form
+              [initialValue]="editInitialValue()"
+              [pending]="isSaving()"
+              submitLabel="Save Changes"
+              (submitEvent)="saveEvent($event)"
+            />
+            @if (saveError()) {
+              <p class="text-sm text-red-600">{{ saveError() }}</p>
+            }
+            @if (saveMessage()) {
+              <p class="text-sm text-green-700">{{ saveMessage() }}</p>
+            }
           </app-tab>
           <app-tab label="Venue">
             <p class="mb-4 text-gray-600">Location: {{ event.location }}</p>

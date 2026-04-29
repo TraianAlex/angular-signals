@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { TICKETS_URL } from './tokens';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
-import { pipe, tap, switchMap, exhaustMap } from 'rxjs';
+import { pipe, tap, switchMap, exhaustMap, catchError } from 'rxjs';
 import {
   withRequestStatus,
   setPending,
@@ -21,7 +21,7 @@ import {
 
 // Helper interface for API response
 interface TicketEntry {
-  id: string;
+  id: string | number;
   eventId: string;
 }
 
@@ -42,6 +42,15 @@ export const CartStore = signalStore(
   withMethods((store) => {
     const http = inject(HttpClient);
     const ticketsUrl = inject(TICKETS_URL);
+    const expressTicketsUrl = '/api/tickets';
+
+    const getTicketsWithFallback = () =>
+      http.get<TicketEntry[]>(ticketsUrl).pipe(catchError(() => http.get<TicketEntry[]>(expressTicketsUrl)));
+
+    const addTicketWithFallback = (eventId: string) =>
+      http
+        .post<TicketEntry>(ticketsUrl, { eventId })
+        .pipe(catchError(() => http.post<TicketEntry>(expressTicketsUrl, { eventId })));
 
     return {
       // METHOD 1: Load Tickets (Read)
@@ -50,7 +59,7 @@ export const CartStore = signalStore(
         pipe(
           tap(() => patchState(store, setPending())),
           switchMap(() =>
-            http.get<TicketEntry[]>(ticketsUrl).pipe(
+            getTicketsWithFallback().pipe(
               tapResponse({
                 next: (tickets) =>
                   patchState(store, { ticketIds: tickets.map((t) => t.eventId) }, setFulfilled()),
@@ -70,7 +79,7 @@ export const CartStore = signalStore(
               (state) => ({ ticketIds: [...state.ticketIds, eventId] }),
               setPending(),
             );
-            return http.post(ticketsUrl, { eventId }).pipe(
+            return addTicketWithFallback(eventId).pipe(
               tapResponse({
                 next: () => {
                   patchState(store, setFulfilled());

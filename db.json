@@ -243,12 +243,15 @@
     },
     {
       "id": "22",
-      "title": "sdfsdfs",
-      "description": "dfsdfsdfsdfsdfsdfsdfsdf",
+      "title": "xxxxxxxxx",
+      "description": "ddddddddddddddddddd",
       "date": "2026-05-09T18:18",
       "location": "sdfsdfsdfsdfsdf",
       "image": "/images/event4.png",
-      "speakers": []
+      "speakers": [
+        "wwwwww",
+        "yyyyyy"
+      ]
     }
   ],
   "tickets": [
@@ -267,6 +270,78 @@
     {
       "eventId": "2",
       "id": 4
+    },
+    {
+      "id": 5,
+      "eventId": "1"
+    },
+    {
+      "id": 6,
+      "eventId": "1"
+    },
+    {
+      "id": 7,
+      "eventId": "1"
+    },
+    {
+      "id": 8,
+      "eventId": "1"
+    },
+    {
+      "id": 9,
+      "eventId": "1"
+    },
+    {
+      "id": 10,
+      "eventId": "1"
+    },
+    {
+      "id": 11,
+      "eventId": "1"
+    },
+    {
+      "id": 12,
+      "eventId": "1"
+    },
+    {
+      "id": 13,
+      "eventId": "1"
+    },
+    {
+      "id": 14,
+      "eventId": "1"
+    },
+    {
+      "id": 15,
+      "eventId": "1"
+    },
+    {
+      "id": 16,
+      "eventId": "1"
+    },
+    {
+      "id": 17,
+      "eventId": "1"
+    },
+    {
+      "id": 18,
+      "eventId": "1"
+    },
+    {
+      "id": 19,
+      "eventId": "1"
+    },
+    {
+      "id": 20,
+      "eventId": "1"
+    },
+    {
+      "id": 21,
+      "eventId": "1"
+    },
+    {
+      "id": 22,
+      "eventId": "1"
     }
   ]
 }

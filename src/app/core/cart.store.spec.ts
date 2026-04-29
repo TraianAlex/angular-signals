@@ -55,8 +55,11 @@ describe('CartStore', () => {
     expect(store.isPending()).toBe(true);
 
     // Action: Simulate Network Error
-    const req = httpMock.expectOne('http://localhost:3000/tickets');
-    req.flush('Server Error', { status: 500, statusText: 'Server Error' });
+    const primaryReq = httpMock.expectOne('http://localhost:3000/tickets');
+    primaryReq.flush('Server Error', { status: 500, statusText: 'Server Error' });
+
+    const fallbackReq = httpMock.expectOne('/api/tickets');
+    fallbackReq.flush('Server Error', { status: 500, statusText: 'Server Error' });
 
     // Assert: Rollback
     expect(store.count()).toBe(0);
