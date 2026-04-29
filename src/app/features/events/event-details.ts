@@ -56,7 +56,7 @@ export class EventDetails {
             }),
           );
         }),
-        takeUntilDestroyed(), // Auto-unsubscribe
+        takeUntilDestroyed(),
       )
       .subscribe({
         next: (res) => console.log('✅', res),
