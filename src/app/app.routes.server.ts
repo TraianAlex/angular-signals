@@ -7,6 +7,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
+    path: 'todos/:id',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'event/:id',
     // renderMode: RenderMode.Server,
     renderMode: RenderMode.Prerender,

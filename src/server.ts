@@ -18,23 +18,86 @@ interface TodoItem {
   completed: boolean;
 }
 
-app.get('/api/todos', async (_req, res) => {
-  try {
-    const response = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=8');
-    if (!response.ok) {
-      res.status(response.status).json({
-        message: 'Failed to fetch todos data from upstream API',
-      });
-      return;
-    }
+type TodoPayload = Omit<TodoItem, 'id'>;
 
-    const todos = (await response.json()) as TodoItem[];
-    res.json(todos);
-  } catch {
-    res.status(500).json({
-      message: 'Unexpected error while fetching todos data',
-    });
+const todosStore: TodoItem[] = [
+  { id: 1, title: 'Prepare SSR demo', completed: true },
+  { id: 2, title: 'Build todos CRUD API', completed: true },
+  { id: 3, title: 'Create Angular todo list', completed: true },
+  { id: 4, title: 'Add details page for one todo', completed: false },
+  { id: 5, title: 'Implement todo update flow', completed: false },
+  { id: 6, title: 'Implement todo delete from list', completed: false },
+];
+
+let nextTodoId = Math.max(...todosStore.map((t) => t.id), 0) + 1;
+
+app.use(express.json());
+
+app.get('/api/todos', (_req, res) => {
+  res.json(todosStore);
+});
+
+app.get('/api/todos/:id', (req, res) => {
+  const id = Number.parseInt(req.params['id'] ?? '', 10);
+  const todo = todosStore.find((item) => item.id === id);
+  if (!todo) {
+    res.status(404).json({ message: 'Todo not found' });
+    return;
   }
+  res.json(todo);
+});
+
+app.post('/api/todos', (req, res) => {
+  const payload = req.body as Partial<TodoPayload>;
+  if (typeof payload.title !== 'string' || payload.title.trim() === '') {
+    res.status(400).json({ message: 'Title is required' });
+    return;
+  }
+
+  const todo: TodoItem = {
+    id: nextTodoId++,
+    title: payload.title.trim(),
+    completed: Boolean(payload.completed),
+  };
+
+  todosStore.unshift(todo);
+  res.status(201).json(todo);
+});
+
+app.put('/api/todos/:id', (req, res) => {
+  const id = Number.parseInt(req.params['id'] ?? '', 10);
+  const index = todosStore.findIndex((item) => item.id === id);
+  if (index < 0) {
+    res.status(404).json({ message: 'Todo not found' });
+    return;
+  }
+
+  const payload = req.body as Partial<TodoPayload>;
+  if (typeof payload.title !== 'string' || payload.title.trim() === '') {
+    res.status(400).json({ message: 'Title is required' });
+    return;
+  }
+
+  const updated: TodoItem = {
+    id,
+    title: payload.title.trim(),
+    completed: Boolean(payload.completed),
+  };
+
+  todosStore[index] = updated;
+  res.json(updated);
+});
+
+app.delete('/api/todos/:id', (req, res) => {
+  const id = Number.parseInt(req.params['id'] ?? '', 10);
+  const index = todosStore.findIndex((item) => item.id === id);
+  if (index < 0) {
+    res.status(404).json({ message: 'Todo not found' });
+    return;
+  }
+
+  todosStore.splice(index, 1);
+  res.status(204).send();
 });
 
 

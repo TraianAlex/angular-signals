@@ -1,0 +1,49 @@
+<section class="max-w-2xl mx-auto">
+  <a routerLink="/todos" class="text-sm text-blue-700 hover:underline">← Back to todos</a>
+
+  <h1 class="mt-3 text-3xl font-bold text-gray-900">Todo Details</h1>
+  <p class="mt-2 text-gray-600">Fetch a single todo and edit it here.</p>
+
+  @if (todoResource.isLoading()) {
+    <p class="mt-6 text-gray-500">Loading todo...</p>
+  } @else if (todoResource.error()) {
+    <p class="mt-6 text-red-600">Could not load todo.</p>
+  } @else {
+    <form class="mt-6 space-y-4" (ngSubmit)="saveTodo()">
+      <div>
+        <label class="mb-1 block text-sm font-medium text-gray-700">Title</label>
+        <input
+          class="w-full rounded-md border border-gray-300 px-3 py-2"
+          name="title"
+          [ngModel]="title()"
+          (ngModelChange)="title.set($event)"
+        />
+      </div>
+
+      <label class="flex items-center gap-2 text-gray-700">
+        <input
+          type="checkbox"
+          name="completed"
+          [ngModel]="completed()"
+          (ngModelChange)="completed.set($event)"
+        />
+        Completed
+      </label>
+
+      @if (saveError()) {
+        <p class="text-red-600">{{ saveError() }}</p>
+      }
+      @if (saveSuccess()) {
+        <p class="text-green-700">{{ saveSuccess() }}</p>
+      }
+
+      <button
+        class="rounded-md bg-blue-700 px-4 py-2 text-white disabled:opacity-50"
+        type="submit"
+        [disabled]="saving()"
+      >
+        Save
+      </button>
+    </form>
+  }
+</section>

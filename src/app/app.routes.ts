@@ -13,6 +13,11 @@ export const routes: Routes = [
       import('./features/todos/todo-list').then((m) => m.TodoList),
   },
   {
+    path: 'todos/:id',
+    loadComponent: () =>
+      import('./features/todos/todo-details').then((m) => m.TodoDetails),
+  },
+  {
     path: 'event/:id',
     loadComponent: () => import('./features/events/event-details').then((m) => m.EventDetails),
   },
