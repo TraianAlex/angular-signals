@@ -229,6 +229,26 @@
         "Alex Example",
         "Jamie Demo"
       ]
+    },
+    {
+      "id": "21",
+      "title": "Test cool",
+      "description": "test new festival yes",
+      "date": "2026-05-09T01:53",
+      "location": "Toronto",
+      "image": "/images/event4.png",
+      "speakers": [
+        "Traian Alexandru"
+      ]
+    },
+    {
+      "id": "22",
+      "title": "sdfsdfs",
+      "description": "dfsdfsdfsdfsdfsdfsdfsdf",
+      "date": "2026-05-09T18:18",
+      "location": "sdfsdfsdfsdfsdf",
+      "image": "/images/event4.png",
+      "speakers": []
     }
   ],
   "tickets": [
@@ -243,6 +263,10 @@
     {
       "eventId": "3",
       "id": 3
+    },
+    {
+      "eventId": "2",
+      "id": 4
     }
   ]
 }

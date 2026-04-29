@@ -1,4 +1,5 @@
-npm run dev
+npm run dev - with json-server and express
+ng serve - whithout json-server
 
 localStorage.setItem('isAdmin', 'true')
 
@@ -15,4 +16,4 @@ npm i baseline-browser-mapping@latest -D
 ### Run SSR
 npm run server - run json-server http://localhost:3000
 ng run build
-npm run serve:ssr:devfest-manager - run express server http://localhost:4000
+npm run serve:ssr:devfest - run express server http://localhost:4000 on dist

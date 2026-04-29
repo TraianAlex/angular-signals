@@ -1,0 +1,164 @@
+<div class="bg-white rounded-xl shadow-lg p-8 max-w-4xl mx-auto min-h-[600px]">
+  <a routerLink="/festival" class="text-blue-600 hover:underline mb-6 inline-block">
+    ← Back to Festival Events
+  </a>
+  @if (eventResource.isLoading()) {
+    <div class="animate-pulse h-64 bg-gray-100 rounded-lg"></div>
+  }
+  @if (eventResource.error()) {
+    <div class="text-red-600 p-4 bg-red-50 rounded">Event not found.</div>
+  }
+  @if (eventResource.hasValue()) {
+    @let event = eventResource.value()!;
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="md:col-span-2 space-y-4">
+        <h1 class="text-3xl font-bold mb-4">{{ event.title }}</h1>
+        <p class="text-gray-500 text-lg">
+          {{ event.date | date: 'fullDate' }} • {{ event.location }}
+        </p>
+        <app-tab-group>
+          <app-tab label="Overview">
+            <p class="text-gray-700 leading-relaxed text-lg">{{ event.description }}</p>
+          </app-tab>
+          <app-tab label="Edit">
+            <form class="space-y-4" (ngSubmit)="saveEvent()">
+              <div>
+                <label class="mb-1 block text-sm font-medium text-gray-700">Title</label>
+                <input
+                  class="w-full rounded-md border border-gray-300 px-3 py-2"
+                  name="title"
+                  [ngModel]="editTitle()"
+                  (ngModelChange)="editTitle.set($event)"
+                />
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="mb-1 block text-sm font-medium text-gray-700">Date</label>
+                  <input
+                    class="w-full rounded-md border border-gray-300 px-3 py-2"
+                    type="datetime-local"
+                    name="date"
+                    [ngModel]="editDate()"
+                    (ngModelChange)="editDate.set($event)"
+                  />
+                </div>
+                <div>
+                  <label class="mb-1 block text-sm font-medium text-gray-700">Location</label>
+                  <input
+                    class="w-full rounded-md border border-gray-300 px-3 py-2"
+                    name="location"
+                    [ngModel]="editLocation()"
+                    (ngModelChange)="editLocation.set($event)"
+                  />
+                </div>
+              </div>
+              <div>
+                <label class="mb-1 block text-sm font-medium text-gray-700">Image URL</label>
+                <input
+                  class="w-full rounded-md border border-gray-300 px-3 py-2"
+                  name="image"
+                  [ngModel]="editImage()"
+                  (ngModelChange)="editImage.set($event)"
+                />
+              </div>
+              <div>
+                <label class="mb-1 block text-sm font-medium text-gray-700">Speakers (comma separated)</label>
+                <input
+                  class="w-full rounded-md border border-gray-300 px-3 py-2"
+                  name="speakers"
+                  [ngModel]="editSpeakersRaw()"
+                  (ngModelChange)="editSpeakersRaw.set($event)"
+                />
+              </div>
+              <div>
+                <label class="mb-1 block text-sm font-medium text-gray-700">Description</label>
+                <textarea
+                  class="w-full rounded-md border border-gray-300 px-3 py-2"
+                  rows="5"
+                  name="description"
+                  [ngModel]="editDescription()"
+                  (ngModelChange)="editDescription.set($event)"
+                ></textarea>
+              </div>
+              @if (saveError()) {
+                <p class="text-sm text-red-600">{{ saveError() }}</p>
+              }
+              @if (saveMessage()) {
+                <p class="text-sm text-green-700">{{ saveMessage() }}</p>
+              }
+              <button
+                type="submit"
+                class="rounded-md bg-blue-700 px-4 py-2 text-white disabled:opacity-50"
+                [disabled]="isSaving()"
+              >
+                Save Changes
+              </button>
+            </form>
+          </app-tab>
+          <app-tab label="Venue">
+            <p class="mb-4 text-gray-600">Location: {{ event.location }}</p>
+            @defer (hydrate on viewport) {
+              <div class="h-140 bg-gray-200 rounded mb-4 overflow-hidden relative">
+                <img
+                  [ngSrc]="'/images/venue-map.png'"
+                  width="500"
+                  height="600"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+            } @placeholder {
+              <div class="h-64 bg-gray-100 flex items-center justify-center">Loading Map...</div>
+            }
+          </app-tab>
+          <app-tab label="Speakers">
+            @if (event.speakers.length > 0) {
+              <ul class="space-y-3">
+                @for (speaker of event.speakers; track speaker) {
+                  <li class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                    <div
+                      class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold"
+                    >
+                      {{ speaker.charAt(0) }}
+                    </div>
+                    <span class="text-gray-700 font-medium">{{ speaker }}</span>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <div class="p-4 bg-yellow-50 text-yellow-800 rounded">Speaker list coming soon.</div>
+            }
+          </app-tab>
+        </app-tab-group>
+      </div>
+      <div class="bg-gray-50 p-6 rounded-xl h-fit border border-gray-100">
+        <div class="h-48 bg-gray-200 rounded mb-4 overflow-hidden">
+          <img
+            [ngSrc]="event.image"
+            width="200"
+            height="200"
+            priority
+            class="w-full h-full object-cover"
+            alt="Event image"
+          />
+        </div>
+        @defer (hydrate on interaction) {
+          <button
+            (click)="addToCart()"
+            [disabled]="cartStore.isPending()"
+            class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 shadow-lg transition active:scale-95 disabled:opacity-50 disabled:cursor-wait"
+          >
+            @if (cartStore.isPending()) {
+              Syncing...
+            } @else {
+              Buy Ticket
+            }
+          </button>
+        } @placeholder {
+          <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold opacity-90">
+            Buy Ticket
+          </button>
+        }
+      </div>
+    </div>
+  }
+</div>

@@ -3,6 +3,18 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
 export const serverRoutes: ServerRoute[] = [
   { path: '', renderMode: RenderMode.Prerender },
   {
+    path: 'festival',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'festival/event/:id',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'festival/admin/create',
+    renderMode: RenderMode.Client,
+  },
+  {
     path: 'todos',
     renderMode: RenderMode.Client,
   },

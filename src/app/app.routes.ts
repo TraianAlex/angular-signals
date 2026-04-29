@@ -8,14 +8,27 @@ export const routes: Routes = [
     loadComponent: () => import('./features/events/event-list').then((m) => m.EventList),
   },
   {
-    path: 'todos',
+    path: 'festival',
+    loadComponent: () => import('./features/festival/festival-list').then((m) => m.FestivalList),
+  },
+  {
+    path: 'festival/event/:id',
     loadComponent: () =>
-      import('./features/todos/todo-list').then((m) => m.TodoList),
+      import('./features/festival/festival-details').then((m) => m.FestivalDetails),
+  },
+  {
+    path: 'festival/admin/create',
+    loadComponent: () =>
+      import('./features/festival/create-festival').then((m) => m.CreateFestival),
+    // canActivate: [authGuard],
+  },
+  {
+    path: 'todos',
+    loadComponent: () => import('./features/todos/todo-list').then((m) => m.TodoList),
   },
   {
     path: 'todos/:id',
-    loadComponent: () =>
-      import('./features/todos/todo-details').then((m) => m.TodoDetails),
+    loadComponent: () => import('./features/todos/todo-details').then((m) => m.TodoDetails),
   },
   {
     path: 'event/:id',

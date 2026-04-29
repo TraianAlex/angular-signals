@@ -6,7 +6,6 @@ import { TabGroup } from '../../shared/tabs/tab-group';
 import { Tab } from '../../shared/tabs/tab';
 import { catchError, delay, EMPTY, exhaustMap, Subject, throwError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { BookStore } from '../../core/todo-ex.store';
 import { CartStore } from '../../core/cart.store';
 
 @Component({
@@ -16,7 +15,6 @@ import { CartStore } from '../../core/cart.store';
 })
 export class EventDetails {
   // readonly cartService = inject(CartService);
-  // Replace service with Store
   readonly cartStore = inject(CartStore);
   readonly eventService = inject(EventsService);
   // activatedRoute = inject(ActivatedRoute);
@@ -29,7 +27,6 @@ export class EventDetails {
   addToCart() {
     // this.cartService.addTicket(this.id());
     // this.buyBtnClick$.next();
-    // Call the store method
     this.cartStore.addToCart({ eventId: this.id() });
   }
 
@@ -43,12 +40,10 @@ export class EventDetails {
     // this.bookStore.plus();
     // this.bookStore.addBook({ id: '1', title: 'Book 1', price: 10 });
 
-    // 2. Setup the Pipeline
     this.buyBtnClick$
       .pipe(
         exhaustMap(() => {
           // console.log('🔄 Transaction Started...');
-          // Simulate a 2-second backend request
           // this.cartService.addTicket(this.id());
           console.log('🔄 Trying to buy...');
           // Simulate an API Error
