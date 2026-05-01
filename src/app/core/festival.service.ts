@@ -1,7 +1,9 @@
-import { Injectable, Signal, inject } from '@angular/core';
+import { Injectable, Signal, inject, signal } from '@angular/core';
 import { HttpClient, httpResource } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable, catchError, finalize, switchMap, tap } from 'rxjs';
 import { DevFestEvent } from '../models/event.model';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { AlertifyBrowser } from './alertify-browser.service';
 
 export interface FestivalListQuery {
   query: Signal<string>;
@@ -14,7 +16,12 @@ export interface FestivalListQuery {
 })
 export class FestivalService {
   private readonly http = inject(HttpClient);
+  private readonly alertify = inject(AlertifyBrowser);
   private readonly apiUrl = '/api/festival/events';
+
+  readonly updateError = signal('');
+  readonly updatePending = signal(false);
+  readonly updateSuccessSeq = signal(0);
 
   getEventsResource(input: FestivalListQuery) {
     return httpResource<DevFestEvent[]>(() => {
@@ -44,15 +51,66 @@ export class FestivalService {
     });
   }
 
-  createEvent(event: Omit<DevFestEvent, 'id'>): Observable<DevFestEvent> {
-    return this.http.post<DevFestEvent>(this.apiUrl, event);
-  }
+  // createEvent(event: Omit<DevFestEvent, 'id'>): Observable<DevFestEvent> {
+  //   return this.http.post<DevFestEvent>(this.apiUrl, event);
+  // }
+  createEvent = rxMethod((source$: Observable<Omit<DevFestEvent, 'id'>>) =>
+    source$.pipe(
+      switchMap((event) =>
+        this.http.post<DevFestEvent>(this.apiUrl, event).pipe(
+          tap(() => {
+            this.alertify.success('Festival event created!');
+          }),
+          catchError(() => {
+            this.alertify.error('Failed to create festival event.');
+            return EMPTY;
+          }),
+        ),
+      ),
+    ),
+  );
 
-  updateEvent(id: string, event: Omit<DevFestEvent, 'id'>): Observable<DevFestEvent> {
-    return this.http.put<DevFestEvent>(`${this.apiUrl}/${id}`, event);
-  }
+  // updateEvent(id: string, event: Omit<DevFestEvent, 'id'>): Observable<DevFestEvent> {
+  //   return this.http.put<DevFestEvent>(`${this.apiUrl}/${id}`, event);
+  // }
+  updateEvent = rxMethod((id$: Observable<{ id: string; event: Omit<DevFestEvent, 'id'> }>) =>
+    id$.pipe(
+      tap(() => {
+        this.updatePending.set(true);
+      }),
+      switchMap(({ id, event }) =>
+        this.http.put<DevFestEvent>(`${this.apiUrl}/${id}`, event).pipe(
+          tap(() => {
+            this.alertify.success('Festival event updated!');
+            this.updateSuccessSeq.update((n) => n + 1);
+          }),
+          catchError(() => {
+            this.alertify.error('Could not update festival event.');
+            this.updateError.set('Could not update festival event.');
+            return EMPTY;
+          }),
+          finalize(() => this.updatePending.set(false)),
+        ),
+      ),
+    ),
+  );
 
-  deleteEvent(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
+  // deleteEvent(id: string): Observable<void> {
+  //   return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  // }
+  deleteEvent = rxMethod((id$: Observable<string>) =>
+    id$.pipe(
+      switchMap((id) =>
+        this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+          tap(() => {
+            this.alertify.success('Festival event deleted!');
+          }),
+          catchError(() => {
+            this.alertify.error('Could not delete festival event.');
+            return EMPTY;
+          }),
+        ),
+      ),
+    ),
+  );
 }

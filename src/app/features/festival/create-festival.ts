@@ -1,6 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AlertifyBrowser } from '../../core/alertify-browser.service';
 import { FestivalService } from '../../core/festival.service';
 import { DevFestEvent } from '../../models/event.model';
 import { FestivalEventForm, FestivalEventFormValue } from './festival-event-form';
@@ -15,7 +14,6 @@ interface CreateFestivalForm extends Omit<DevFestEvent, 'id'> {}
 export class CreateFestival {
   private readonly festivalService = inject(FestivalService);
   private readonly router = inject(Router);
-  private readonly alertify = inject(AlertifyBrowser);
 
   readonly initialFormValue = signal<CreateFestivalForm>({
     title: '',
@@ -26,15 +24,19 @@ export class CreateFestival {
     image: '/images/event4.png',
   });
 
+  // onSubmit(eventData: FestivalEventFormValue) {
+  //   this.festivalService.createEvent(eventData).subscribe({
+  //     next: () => {
+  //       this.alertify.success('Festival event created!');
+  //       void this.router.navigate(['/festival']);
+  //     },
+  //     error: () => {
+  //       this.alertify.error('Failed to create festival event');
+  //     },
+  //   });
+  // }
   onSubmit(eventData: FestivalEventFormValue) {
-    this.festivalService.createEvent(eventData).subscribe({
-      next: () => {
-        this.alertify.success('Festival event created!');
-        void this.router.navigate(['/festival']);
-      },
-      error: () => {
-        this.alertify.error('Failed to create festival event');
-      },
-    });
+    this.festivalService.createEvent(eventData);
+    void this.router.navigate(['/festival']);
   }
 }

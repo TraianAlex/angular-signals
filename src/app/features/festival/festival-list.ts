@@ -3,7 +3,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { map } from 'rxjs';
-import { AlertifyBrowser } from '../../core/alertify-browser.service';
 import { FestivalService } from '../../core/festival.service';
 import { FestivalCard } from './festival-card';
 import { FestivalSearchBar } from './festival-search-bar';
@@ -15,7 +14,6 @@ import { FestivalSearchBar } from './festival-search-bar';
 })
 export class FestivalList {
   readonly festivalService = inject(FestivalService);
-  private readonly alertify = inject(AlertifyBrowser);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
@@ -68,7 +66,10 @@ export class FestivalList {
   });
 
   readonly showPagination = computed(
-    () => this.events.hasValue() && this.pageItems().length > 0 && (this.hasPrevPage() || this.hasNextPage()),
+    () =>
+      this.events.hasValue() &&
+      this.pageItems().length > 0 &&
+      (this.hasPrevPage() || this.hasNextPage()),
   );
 
   readonly totalPages = computed(() => {
@@ -152,16 +153,26 @@ export class FestivalList {
     this.goToPage(this.currentPage() + 1);
   }
 
+  // deleteEvent(id: string) {
+  //   if (!confirm('Are you sure?')) return;
+  //   this.festivalService.deleteEvent(id).subscribe({
+  //     next: () => {
+  //       this.alertify.success('Festival event deleted!');
+  //       this.events.reload();
+  //     },
+  //     error: () => {
+  //       this.alertify.error('Could not delete festival event');
+  //     },
+  //   });
+  // }
   deleteEvent(id: string) {
     if (!confirm('Are you sure?')) return;
-    this.festivalService.deleteEvent(id).subscribe({
-      next: () => {
-        this.alertify.success('Festival event deleted!');
-        this.events.reload();
-      },
-      error: () => {
-        this.alertify.error('Could not delete festival event');
-      },
+    this.festivalService.deleteEvent(id);
+    this.events.reload();
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
     });
   }
 }
