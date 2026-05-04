@@ -85,7 +85,7 @@ export const CartStore = signalStore(
                   patchState(store, setFulfilled());
                   console.log('Transaction Confirmed');
                 },
-                error: (err: any) => {
+                error: (err: { message: string }) => {
                   console.error('Transaction Failed - Rolling Back');
                   // CRITICAL: ROLLBACK LOGIC
                   // We optimistically added the ID. Now we must remove ONE instance of it.
