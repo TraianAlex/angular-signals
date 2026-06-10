@@ -28,7 +28,6 @@ export class FestivalDetails {
   readonly saveMessage = signal('');
   private lastHandledUpdateSuccessSeq = 0;
 
-
   private buyBtnClick$ = new Subject<void>();
 
   readonly editInitialValue = computed<FestivalEventFormValue>(() => {
@@ -101,7 +100,6 @@ export class FestivalDetails {
         this.eventResource.reload();
       });
     });
-
 
     this.buyBtnClick$
       .pipe(
